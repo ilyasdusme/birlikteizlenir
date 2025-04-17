@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Önerileri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="heart-bg"></div>
+        <div class="main-content">
+            <div class="contact-button">
+                <a href="/contact" class="btn btn-pink">
+                    <i class="fas fa-envelope"></i> İletişim
+                </a>
+            </div>
+            <h1 class="sub-title">Birlikte İzlenir</h1>
+            <h1 class="main-title">Bazı Filmler Yalnız Değil, Birlikte İzlenir</h1>
+            <div class="movie-selection">
+                <div class="movie-box">
+                    <div id="preview1" class="preview-container"></div>
+                    <input type="text" id="user1Movies" class="movie-input" placeholder="Senin Filmin..." list="movieSuggestions1">
+                    <datalist id="movieSuggestions1"></datalist>
+                </div>
+
+                <div class="plus-sign">+</div>
+
+                <div class="movie-box">
+                    <div id="preview2" class="preview-container"></div>
+                    <input type="text" id="user2Movies" class="movie-input" placeholder="Onun Filmi..." list="movieSuggestions2">
+                    <datalist id="movieSuggestions2"></datalist>
+                </div>
+            </div>
+
+            <div class="random-section">
+                <p class="or-text">veya</p>
+                <button id="randomCombo" class="random-btn">Rastgele Film Seç</button>
+            </div>
+
+            <div class="recommendations-wrapper">
+                <div id="recommendations" class="recommendations-container">
+                    <!-- Film önerileri buraya gelecek -->
+                </div>
+                <button class="scroll-btn scroll-left" onclick="scrollRecommendations('left')">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="scroll-btn scroll-right" onclick="scrollRecommendations('right')">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Film Detay Modal -->
+    <div class="modal fade" id="movieDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="modal-poster" src="" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="movie-details">
+                                <div class="movie-rating">
+                                    <span class="rating-label">Puan:</span>
+                                    <span class="rating-value"></span>
+                                    <div class="stars"></div>
+                                </div>
+                                <div class="movie-genres">
+                                    <span class="genres-label">Türler:</span>
+                                    <span class="genres-value"></span>
+                                </div>
+                                <div class="movie-overview">
+                                    <h6>Film Hakkında:</h6>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

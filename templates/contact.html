@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Birlikte İzlenir</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-film"></i> Birlikte İzlenir</h1>
+            <nav>
+                <a href="{{ url_for('home') }}">Ana Sayfa</a>
+                <a href="{{ url_for('contact') }}" class="active">İletişim</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="contact-container">
+                <h2>İletişim Formu</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="email">E-posta Adresiniz</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Konu</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mesajınız</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">Gönder</button>
+                </form>
+                <div id="messageContainer" class="message-container"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.innerHTML = '';
+            
+            try {
+                const response = await fetch('/submit_contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, subject, message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageContainer.innerHTML = `
+                        <div class="success-message">
+                            <i class="fas fa-check-circle"></i>
+                            ${data.message}
+                        </div>
+                    `;
+                    document.getElementById('contactForm').reset();
+                } else {
+                    messageContainer.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                messageContainer.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Mesaj gönderilirken bir hata oluştu.
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html> 
